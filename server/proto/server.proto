@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package serverproto;
+
+message ConnectServer { // 100
+    string servername = 1;
+}
+
+message RConnectServer { // 101
+    bool read = 1;
+}
+
+message CreateRoom {
+    uint32 id1 = 1;
+    uint32 id2 = 2;
+}

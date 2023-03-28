@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package beatsgame;
+
+message Login//type=1
+{
+    bool register = 1;
+    string username = 2;
+    string password = 3;
+}
+
+message RLogin//type=2
+{
+    int32 id = 1;
+    uint32 success = 2; // 0 服务器异常 1成功，2用户不存在，3密码错误 
+}
+
+message Match//type=3  
+{
+    int32 id = 1;
+}
+
+message RMatch//type=4
+{
+    uint32 success = 1; // 1成功，0失败
+}
+
+message REnter//type=5
+{
+    uint32 gameid = 1;
+    uint32 seed = 2;
+}
+
+message Operation//type=6
+{
+    uint32 frame = 1;
+    repeated OP client_operation = 2;
+}
+
+message ROperation//type=7
+{
+    uint32 frame = 1;
+    uint32 deltatime = 2;
+    repeated OP operations = 3;
+}
+
+message Exitgame//type=8
+{
+    int32 id = 1;
+}
+
+message RExitgame//type=9
+{
+    int32 id = 1;
+    uint32 success = 2; // 1成功，0失败
+}
+
+message OP//type=10
+{
+    int32 id = 1;
+    bool move = 2; //是否在移动
+    sint32 movex = 3;
+    sint32 movey = 4;
+    Command do = 5; //移动外的操作
+}   
+
+enum Command//type=11
+{
+    pushJ = 0;
+    pullJ = 1;
+    pushK = 2;
+    pullK = 3;
+    pushL = 4;
+    pullL = 5;
+    pushU = 6;
+    pullU = 7;
+    pushI = 8;
+    pullI = 9;
+    pushO = 10;
+    pullO = 11;
+    none = 12;
+}

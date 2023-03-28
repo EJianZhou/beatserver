@@ -1,0 +1,7 @@
+/data/game/server/CMakeFiles/rebuild_cache.dir
+/data/game/server/CMakeFiles/test.dir
+/data/game/server/CMakeFiles/debugserver.dir
+/data/game/server/CMakeFiles/edit_cache.dir
+/data/game/server/CMakeFiles/gameserver.dir
+/data/game/server/CMakeFiles/controlserver.dir
+/data/game/server/CMakeFiles/gateserver.dir
