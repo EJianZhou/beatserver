@@ -110,6 +110,7 @@ public:
     virtual void on_close(int fd);
     virtual void solve_pkg(int fd, Header* header);  
     void try_solve(int fd, CircularBuffer* cbuf, Header* header);
+    void send_to_server(ServerType type, const char* buf, int len);
     void send_to_server(ServerType type, const Header *header, char *buf);
     bool connect_as_client(ServerInfo& info, bool reconnect);
     void open_as_server(int port);

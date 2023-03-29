@@ -23,16 +23,19 @@ public:
         }
     }
     void logout(int id, int fd) {
+        my_log("logout", id, fd);
         umap_id2fd.erase(id);
         umap_fd2id.erase(fd);
         Header hd(0, id, GATELOGOUT);
-        send_to_server(ServerType::controlserver, &hd, pkg_buf);
-        send_to_server(ServerType::gameserver, &hd, pkg_buf);
+        hd.write(pkg_buf);
+        send_to_server(ServerType::controlserver, pkg_buf, Header::header_length);
+        send_to_server(ServerType::gameserver, pkg_buf, Header::header_length);
     }
     bool check_login(int id, int fd) {
         return umap_id2fd.count(id) && umap_id2fd[id] == fd;
     }
     void on_close(int fd) override {
+        my_log("gate close", fd, umap_fd2id.count(fd));
         if (umap_fd2id.count(fd)) {
             int id = umap_fd2id[fd];
             logout(id, fd);

@@ -121,15 +121,18 @@ public:
         }
     }
     void try_logout(int id) {
+        my_log("logout", id);
         auto it = umap_id2playerinfo.find(id);
         if (it != umap_id2playerinfo.end()) {
             PlayerInfo* info = it->second;
             if (info->state == PlayerState::login) {
+                my_log("已登录用户登出");
                 pool_playerinfo->release(info);
 
                 IDMgr->erase(id, info->username);
                 umap_id2playerinfo.erase(it);
             } else if (info->state == PlayerState::match) {
+                my_log("匹配队列中用户退出");
                 pool_playerinfo->release(info);
 
                 list_match.erase(info->listit_match);
@@ -137,6 +140,7 @@ public:
                 IDMgr->erase(id, info->username);
                 umap_id2playerinfo.erase(it);
             } else if (info->state == PlayerState::game) {
+                my_log("游戏中用户退出");
                 info->state = PlayerState::exitgame;
 
             } else if (info->state == PlayerState::exitgame) {
@@ -212,7 +216,9 @@ public:
         } else if (type == MATCH) { //匹配
             int id = header->value;
             list_match.push_back(id);
-            umap_id2playerinfo[id]->listit_match = --list_match.end();
+            PlayerInfo *info = umap_id2playerinfo[id];
+            info->listit_match = --list_match.end();
+            info->state = PlayerState::match;
             auto rm = RMessageBuilder::createRMatchMessage(1);
             Header hd(rm.ByteSizeLong(), id, RMATCH);
             if (SerializeWithHeader(&hd, rm, pkg_buf, PKGSIZE)) {

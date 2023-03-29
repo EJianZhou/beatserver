@@ -98,11 +98,11 @@ public:
             int id = fd;
             my_log("fd", fd);
             auto rlogin = RMessageBuilder::createRLoginMessage(fd, 1);
-            Header hd(rlogin.ByteSizeLong(), id, RLOGIN);
-            if (SerializeWithHeader(&hd, rlogin, pkg_buf, PKGSIZE)) {
-                my_log("send rlogin", hd.length);
-                Send(fd, pkg_buf, Header::header_length + hd.length, 0);
-            }
+            // Header hd(rlogin.ByteSizeLong(), id, RLOGIN);
+            // if (SerializeWithHeader(&hd, rlogin, pkg_buf, PKGSIZE)) {
+            //     my_log("send rlogin", hd.length);
+            //     Send(fd, pkg_buf, Header::header_length + hd.length, 0);
+            // }
             my_log("try enter");
            
             auto renter = RMessageBuilder::createREnterMessage(uset_clientfd.size(), 633);

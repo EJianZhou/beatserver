@@ -168,6 +168,7 @@ void ServerBase::solve_pkg(int fd, Header *header) {
     }
 } 
 void ServerBase::on_close(int fd) {
+    my_log("base close");
     epoll_mgr->del(fd);
     if (map_fd_cbufheader.count(fd)) {
         map_fd_cbufheader.erase(fd);
@@ -206,12 +207,20 @@ void ServerBase::try_solve(int fd, CircularBuffer* cbuf, Header* header) {
         }
     }
 }
-void ServerBase::send_to_server(ServerType servertype, const Header *header, char *buf) {
-    int serverfd = net_mgr->request_serverfd(servertype);
+void ServerBase::send_to_server(ServerType type, const char* buf, int len) {
+    int serverfd = net_mgr->request_serverfd(type);
+    if (serverfd != -1) {
+        Send(serverfd, buf, len, 0);
+    } else {
+        my_log("request error:", ServerTypeNames[type], "close");
+    }
+}
+void ServerBase::send_to_server(ServerType type, const Header *header, char *buf) {
+    int serverfd = net_mgr->request_serverfd(type);
     if (serverfd != -1) {
         Send(serverfd, buf, header->length + Header::header_length, 0);
     } else {
-        my_log("request error:", ServerTypeNames[servertype], "close");
+        my_log("request error:", ServerTypeNames[type], "close");
     }
 }
 bool ServerBase::connect_as_client(ServerInfo& info, bool reconnect) {
