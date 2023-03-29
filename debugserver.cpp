@@ -7,6 +7,9 @@
 #include <map>
 #include <unordered_map>
 
+#include <gperftools/profiler.h>
+#include <jemalloc/jemalloc.h>
+
 time_t getTimeMS() {
     auto now = std::chrono::system_clock::now();
     auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
@@ -80,7 +83,7 @@ class DebugGameServer: public ServerBase {
     // }
 public:
     DebugGameServer() : ServerBase(ServerType::none) {
-        pool_room = new ObjectPool<RoomInfo>(256, 2);
+        pool_room = new ObjectPool<RoomInfo>(256);
         frame = 0;
     }
     ~DebugGameServer() {
@@ -112,7 +115,7 @@ public:
             }
             my_log("try enter end");
             if (list_room.empty()) {
-                list_room.push_back(pool_room->acquire(2));
+                list_room.push_back(pool_room->acquire());
             }
             list_room.front()->add_player(id);
         }
@@ -120,7 +123,9 @@ public:
             int id = header->value;
             beatsgame::Operation op;
             if (op.ParseFromArray(pkg_buf + Header::header_length, header->length)) {
-                list_room.front()->add_op(op); 
+                if (!list_room.empty()) {
+                    list_room.front()->add_op(op);
+                } 
             } else {
                 my_log("op Parser Error");
             }
@@ -174,6 +179,7 @@ private:
 };
 
 int main (int argc, char *argv[]) {
+    ProfilerStart("test.prof");
 	if (argc != 2) {
 		my_log("example: ./server <TIME_STEP>");
 		exit(1);	
@@ -189,4 +195,7 @@ int main (int argc, char *argv[]) {
     server.open_as_server(DGAME_PORT);
     server.set_step(step);
     server.run();
+    mallctl("prof.dump",NULL,NULL,NULL,0);    
+
+    ProfilerStop();
 }

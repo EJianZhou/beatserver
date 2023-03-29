@@ -219,6 +219,7 @@ public:
             PlayerInfo *info = umap_id2playerinfo[id];
             info->listit_match = --list_match.end();
             info->state = PlayerState::match;
+            my_log(info->username, "开始匹配");
             auto rm = RMessageBuilder::createRMatchMessage(1);
             Header hd(rm.ByteSizeLong(), id, RMATCH);
             if (SerializeWithHeader(&hd, rm, pkg_buf, PKGSIZE)) {

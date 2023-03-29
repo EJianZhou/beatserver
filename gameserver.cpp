@@ -7,6 +7,8 @@
 #include <unordered_set>
 #include <queue>
 
+
+
 #define NOW std::chrono::steady_clock::now()
 
 time_t getTimeMS() {
@@ -98,7 +100,7 @@ class GameServer: public ServerBase {
     // }
 public:
     GameServer() : ServerBase(ServerType::gameserver) {
-        pool_room = new ObjectPool<RoomInfo>(256, 2);
+        pool_room = new ObjectPool<RoomInfo>(256);
     }
     ~GameServer() {
         delete pool_room;
@@ -109,7 +111,7 @@ public:
             my_log("create room");
             serverproto::CreateRoom cr;
             if (cr.ParseFromArray(pkg_buf + Header::header_length, header->length)) {
-                RoomInfo *rm = pool_room->acquire(2);
+                RoomInfo *rm = pool_room->acquire();
                 list_room.push_back(rm);
                 auto itor = --list_room.end();
                 umap_id2itor[cr.id1()] = itor;
@@ -139,7 +141,8 @@ public:
                 my_log("player is not exist");
             }
             
-        } else if (header->type == GATELOGOUT) { //断线
+        } else if (header->type == GATELOGOUT) { //玩家掉线断线
+            my_log("处理玩家掉线");
             int id = header->value;
             if (umap_id2itor.count(id)) {
                 auto itor = umap_id2itor[id];
@@ -164,6 +167,8 @@ public:
             Header hd(rop.ByteSizeLong(), playerid, ROPERATION);
             if (SerializeWithHeader(&hd, rop, pkg_buf, PKGSIZE)) {
                 send_to_server(ServerType::gateserver, &hd, pkg_buf);
+            } else {
+                my_log("ROP SerializeWithHeader Error");
             }
         }
     }

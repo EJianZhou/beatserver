@@ -5,25 +5,23 @@
 template<typename T>
 class ObjectPool {
 public:
-    template<typename... TArgs>
-    ObjectPool(int size, TArgs&&... args) {
+    ObjectPool(int size) {
         for (int i = 0; i < size; i++) {
-            T* obj = new T(std::forward<TArgs>(args)...);
+            T* obj = new T();
             m_pool.push_back(obj);
             m_freeList.push_back(obj);
         }
     }
 
     ~ObjectPool() {
-        for (auto obj : m_pool) {
+        for (auto obj : m_pool) { 
             delete obj;
         }
     }
 
-    template<typename... TArgs>
-    T* acquire(TArgs&&... args) {
+    T* acquire() {
         if (m_freeList.empty()) {
-            T* obj = new T(std::forward<TArgs>(args)...);
+            T* obj = new T();
             m_pool.push_back(obj);
             return obj;
         }

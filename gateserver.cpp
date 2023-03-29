@@ -31,8 +31,16 @@ public:
         send_to_server(ServerType::controlserver, pkg_buf, Header::header_length);
         send_to_server(ServerType::gameserver, pkg_buf, Header::header_length);
     }
+    
     bool check_login(int id, int fd) {
         return umap_id2fd.count(id) && umap_id2fd[id] == fd;
+    }
+    void on_server_close(ServerType type) override {
+        if (type == ServerType::controlserver) {
+            umap_id2fd.clear();
+        } else if (type == ServerType::gameserver) {
+            
+        }
     }
     void on_close(int fd) override {
         my_log("gate close", fd, umap_fd2id.count(fd));

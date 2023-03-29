@@ -167,34 +167,55 @@ void ServerBase::solve_pkg(int fd, Header *header) {
         return;
     }
 } 
+void ServerBase::on_server_close(ServerType type) {
+    
+}
 void ServerBase::on_close(int fd) {
     my_log("base close");
     epoll_mgr->del(fd);
-    if (map_fd_cbufheader.count(fd)) {
-        map_fd_cbufheader.erase(fd);
+    auto it = map_fd_cbufheader.find(fd);
+    if (it != map_fd_cbufheader.end()) { // cbuf header 删除
+        delete it->second.first;       
+        delete it->second.second;
+        map_fd_cbufheader.erase(it);
     }
     if (uset_clientfd.count(fd)) {
         uset_clientfd.erase(fd);
     }
     ServerType type = net_mgr->request_fdtype(fd);
     my_log("on close", fd, get_server_namebytype(type));
-    if (type != ServerType::none && map_type_info.count(type)) {
-        list_reconnect.push_back(type);
+    if (type != ServerType::none) {
+        on_server_close(type);   // 其他server断开时间处理
+    }
+    if (type != ServerType::none && map_type_info.count(type)) { // 作为客户端连接的断开需要重连
+        list_reconnect.push_back(type);   
     }
     net_mgr->close_fd(fd);
 }
 void ServerBase::try_solve(int fd, CircularBuffer* cbuf, Header* header) {
+    static uint32_t count = 0; // 需要空读的长度
     while (1) {
         auto len = header->length;
         auto type = header->type;
-       // my_log("cbuf->getCapacity()", cbuf->getCapacity(), "len", len);
-        if (cbuf->getCapacity() >= (type ? len : Header::header_length)) {
+        if (count > 0 && cbuf->getCapacity() > 0) {  //buf中有数据，能空读
+            uint32_t read_size = std::min(count, cbuf->getCapacity()); 
+            count -= read_size;
+            cbuf->popBuffer(read_size);
+            if (count == 0) { // 空读完成， header设置位等待读取状态
+                header->init();
+            }
+        }
+        else if (cbuf->getCapacity() >= (type ? len : Header::header_length)) { //正常处理包头 包体
             if (type == 0) {
             //    my_log("read header");
                 cbuf->getBuffer(pkg_buf, Header::header_length);
                 header->read(pkg_buf); // 读取下个包的header
                 my_log("read header", header->length, header->value, (int)header->type);
                 cbuf->popBuffer(Header::header_length);
+                if (header->length + Header::header_length > PKGSIZE) { // 包体长度超过上限空读，不处理
+                    my_log("包体的长度过长,空读", getTypeName(header->type), header->length);
+                    count = header->length; 
+                }
             } else {
                 my_log("read pkg", "type:", getTypeName(type), "len:", len);
                 cbuf->getBuffer(pkg_buf + Header::header_length, len);
@@ -202,7 +223,7 @@ void ServerBase::try_solve(int fd, CircularBuffer* cbuf, Header* header) {
                 cbuf->popBuffer(len);
                 header->init(); // header设置位等待读取状态
             }
-        } else {
+        } else { // 无能做动作
             break;
         }
     }

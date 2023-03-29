@@ -6,6 +6,7 @@
 #include "proto/project.pb.h"
 #include "tool/epoll_manager.h"
 #include "tool/circularbuffer.h"
+#include "tool/objectpool.h"
 #include "tool/pbhelper.h"
 
 
@@ -102,11 +103,17 @@ public:
         epoll_mgr = new epoll_manager();
     } 
     ~ServerBase() {
+        for (auto &p : map_fd_cbufheader) {
+            delete p.second.first;
+            delete p.second.second;
+        }
         delete net_mgr;
         delete epoll_mgr;
     }
+    
     void on_accept();
     void on_message(int fd, const char *buf, int len);
+    virtual void on_server_close(ServerType type);
     virtual void on_close(int fd);
     virtual void solve_pkg(int fd, Header* header);  
     void try_solve(int fd, CircularBuffer* cbuf, Header* header);
