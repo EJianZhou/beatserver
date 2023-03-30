@@ -51,6 +51,9 @@ extern ConnectServerDefaultTypeInternal _ConnectServer_default_instance_;
 class CreateRoom;
 struct CreateRoomDefaultTypeInternal;
 extern CreateRoomDefaultTypeInternal _CreateRoom_default_instance_;
+class GameOver;
+struct GameOverDefaultTypeInternal;
+extern GameOverDefaultTypeInternal _GameOver_default_instance_;
 class RConnectServer;
 struct RConnectServerDefaultTypeInternal;
 extern RConnectServerDefaultTypeInternal _RConnectServer_default_instance_;
@@ -58,6 +61,7 @@ extern RConnectServerDefaultTypeInternal _RConnectServer_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::serverproto::ConnectServer* Arena::CreateMaybeMessage<::serverproto::ConnectServer>(Arena*);
 template<> ::serverproto::CreateRoom* Arena::CreateMaybeMessage<::serverproto::CreateRoom>(Arena*);
+template<> ::serverproto::GameOver* Arena::CreateMaybeMessage<::serverproto::GameOver>(Arena*);
 template<> ::serverproto::RConnectServer* Arena::CreateMaybeMessage<::serverproto::RConnectServer>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace serverproto {
@@ -522,6 +526,165 @@ class CreateRoom final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_server_2eproto;
 };
+// -------------------------------------------------------------------
+
+class GameOver final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:serverproto.GameOver) */ {
+ public:
+  inline GameOver() : GameOver(nullptr) {}
+  ~GameOver() override;
+  explicit PROTOBUF_CONSTEXPR GameOver(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GameOver(const GameOver& from);
+  GameOver(GameOver&& from) noexcept
+    : GameOver() {
+    *this = ::std::move(from);
+  }
+
+  inline GameOver& operator=(const GameOver& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GameOver& operator=(GameOver&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GameOver& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GameOver* internal_default_instance() {
+    return reinterpret_cast<const GameOver*>(
+               &_GameOver_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(GameOver& a, GameOver& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GameOver* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GameOver* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GameOver* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<GameOver>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const GameOver& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const GameOver& from) {
+    GameOver::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GameOver* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "serverproto.GameOver";
+  }
+  protected:
+  explicit GameOver(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kId1FieldNumber = 1,
+    kId2FieldNumber = 2,
+  };
+  // uint32 id1 = 1;
+  void clear_id1();
+  uint32_t id1() const;
+  void set_id1(uint32_t value);
+  private:
+  uint32_t _internal_id1() const;
+  void _internal_set_id1(uint32_t value);
+  public:
+
+  // uint32 id2 = 2;
+  void clear_id2();
+  uint32_t id2() const;
+  void set_id2(uint32_t value);
+  private:
+  uint32_t _internal_id2() const;
+  void _internal_set_id2(uint32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:serverproto.GameOver)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    uint32_t id1_;
+    uint32_t id2_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_server_2eproto;
+};
 // ===================================================================
 
 
@@ -651,9 +814,55 @@ inline void CreateRoom::set_id2(uint32_t value) {
   // @@protoc_insertion_point(field_set:serverproto.CreateRoom.id2)
 }
 
+// -------------------------------------------------------------------
+
+// GameOver
+
+// uint32 id1 = 1;
+inline void GameOver::clear_id1() {
+  _impl_.id1_ = 0u;
+}
+inline uint32_t GameOver::_internal_id1() const {
+  return _impl_.id1_;
+}
+inline uint32_t GameOver::id1() const {
+  // @@protoc_insertion_point(field_get:serverproto.GameOver.id1)
+  return _internal_id1();
+}
+inline void GameOver::_internal_set_id1(uint32_t value) {
+  
+  _impl_.id1_ = value;
+}
+inline void GameOver::set_id1(uint32_t value) {
+  _internal_set_id1(value);
+  // @@protoc_insertion_point(field_set:serverproto.GameOver.id1)
+}
+
+// uint32 id2 = 2;
+inline void GameOver::clear_id2() {
+  _impl_.id2_ = 0u;
+}
+inline uint32_t GameOver::_internal_id2() const {
+  return _impl_.id2_;
+}
+inline uint32_t GameOver::id2() const {
+  // @@protoc_insertion_point(field_get:serverproto.GameOver.id2)
+  return _internal_id2();
+}
+inline void GameOver::_internal_set_id2(uint32_t value) {
+  
+  _impl_.id2_ = value;
+}
+inline void GameOver::set_id2(uint32_t value) {
+  _internal_set_id2(value);
+  // @@protoc_insertion_point(field_set:serverproto.GameOver.id2)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

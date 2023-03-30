@@ -46,3 +46,4 @@ private:
     std::vector<T *> m_pool;
     std::vector<T *> m_freeList;
 };
+

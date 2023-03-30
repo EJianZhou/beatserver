@@ -61,8 +61,22 @@ struct CreateRoomDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CreateRoomDefaultTypeInternal _CreateRoom_default_instance_;
+PROTOBUF_CONSTEXPR GameOver::GameOver(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.id1_)*/0u
+  , /*decltype(_impl_.id2_)*/0u
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct GameOverDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GameOverDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GameOverDefaultTypeInternal() {}
+  union {
+    GameOver _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GameOverDefaultTypeInternal _GameOver_default_instance_;
 }  // namespace serverproto
-static ::_pb::Metadata file_level_metadata_server_2eproto[3];
+static ::_pb::Metadata file_level_metadata_server_2eproto[4];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_server_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_server_2eproto = nullptr;
 
@@ -89,30 +103,41 @@ const uint32_t TableStruct_server_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::serverproto::CreateRoom, _impl_.id1_),
   PROTOBUF_FIELD_OFFSET(::serverproto::CreateRoom, _impl_.id2_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::serverproto::GameOver, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::serverproto::GameOver, _impl_.id1_),
+  PROTOBUF_FIELD_OFFSET(::serverproto::GameOver, _impl_.id2_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::serverproto::ConnectServer)},
   { 7, -1, -1, sizeof(::serverproto::RConnectServer)},
   { 14, -1, -1, sizeof(::serverproto::CreateRoom)},
+  { 22, -1, -1, sizeof(::serverproto::GameOver)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::serverproto::_ConnectServer_default_instance_._instance,
   &::serverproto::_RConnectServer_default_instance_._instance,
   &::serverproto::_CreateRoom_default_instance_._instance,
+  &::serverproto::_GameOver_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_server_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\014server.proto\022\013serverproto\"#\n\rConnectSe"
   "rver\022\022\n\nservername\030\001 \001(\t\"\036\n\016RConnectServ"
   "er\022\014\n\004read\030\001 \001(\010\"&\n\nCreateRoom\022\013\n\003id1\030\001 "
-  "\001(\r\022\013\n\003id2\030\002 \001(\rb\006proto3"
+  "\001(\r\022\013\n\003id2\030\002 \001(\r\"$\n\010GameOver\022\013\n\003id1\030\001 \001("
+  "\r\022\013\n\003id2\030\002 \001(\rb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_server_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_server_2eproto = {
-    false, false, 144, descriptor_table_protodef_server_2eproto,
+    false, false, 182, descriptor_table_protodef_server_2eproto,
     "server.proto",
-    &descriptor_table_server_2eproto_once, nullptr, 0, 3,
+    &descriptor_table_server_2eproto_once, nullptr, 0, 4,
     schemas, file_default_instances, TableStruct_server_2eproto::offsets,
     file_level_metadata_server_2eproto, file_level_enum_descriptors_server_2eproto,
     file_level_service_descriptors_server_2eproto,
@@ -717,6 +742,217 @@ void CreateRoom::InternalSwap(CreateRoom* other) {
       file_level_metadata_server_2eproto[2]);
 }
 
+// ===================================================================
+
+class GameOver::_Internal {
+ public:
+};
+
+GameOver::GameOver(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:serverproto.GameOver)
+}
+GameOver::GameOver(const GameOver& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  GameOver* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id1_){}
+    , decltype(_impl_.id2_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.id1_, &from._impl_.id1_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.id2_) -
+    reinterpret_cast<char*>(&_impl_.id1_)) + sizeof(_impl_.id2_));
+  // @@protoc_insertion_point(copy_constructor:serverproto.GameOver)
+}
+
+inline void GameOver::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id1_){0u}
+    , decltype(_impl_.id2_){0u}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+GameOver::~GameOver() {
+  // @@protoc_insertion_point(destructor:serverproto.GameOver)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void GameOver::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void GameOver::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void GameOver::Clear() {
+// @@protoc_insertion_point(message_clear_start:serverproto.GameOver)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.id1_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.id2_) -
+      reinterpret_cast<char*>(&_impl_.id1_)) + sizeof(_impl_.id2_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GameOver::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // uint32 id1 = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.id1_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // uint32 id2 = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.id2_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* GameOver::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:serverproto.GameOver)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 id1 = 1;
+  if (this->_internal_id1() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_id1(), target);
+  }
+
+  // uint32 id2 = 2;
+  if (this->_internal_id2() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_id2(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:serverproto.GameOver)
+  return target;
+}
+
+size_t GameOver::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:serverproto.GameOver)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint32 id1 = 1;
+  if (this->_internal_id1() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_id1());
+  }
+
+  // uint32 id2 = 2;
+  if (this->_internal_id2() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_id2());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData GameOver::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    GameOver::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GameOver::GetClassData() const { return &_class_data_; }
+
+
+void GameOver::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<GameOver*>(&to_msg);
+  auto& from = static_cast<const GameOver&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:serverproto.GameOver)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_id1() != 0) {
+    _this->_internal_set_id1(from._internal_id1());
+  }
+  if (from._internal_id2() != 0) {
+    _this->_internal_set_id2(from._internal_id2());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void GameOver::CopyFrom(const GameOver& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:serverproto.GameOver)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GameOver::IsInitialized() const {
+  return true;
+}
+
+void GameOver::InternalSwap(GameOver* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(GameOver, _impl_.id2_)
+      + sizeof(GameOver::_impl_.id2_)
+      - PROTOBUF_FIELD_OFFSET(GameOver, _impl_.id1_)>(
+          reinterpret_cast<char*>(&_impl_.id1_),
+          reinterpret_cast<char*>(&other->_impl_.id1_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GameOver::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_server_2eproto_getter, &descriptor_table_server_2eproto_once,
+      file_level_metadata_server_2eproto[3]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace serverproto
 PROTOBUF_NAMESPACE_OPEN
@@ -731,6 +967,10 @@ Arena::CreateMaybeMessage< ::serverproto::RConnectServer >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::serverproto::CreateRoom*
 Arena::CreateMaybeMessage< ::serverproto::CreateRoom >(Arena* arena) {
   return Arena::CreateMessageInternal< ::serverproto::CreateRoom >(arena);
+}
+template<> PROTOBUF_NOINLINE ::serverproto::GameOver*
+Arena::CreateMaybeMessage< ::serverproto::GameOver >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::serverproto::GameOver >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

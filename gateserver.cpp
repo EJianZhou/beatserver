@@ -134,7 +134,7 @@ public:
     {
         while (1)
         {
-            this->epoll_step(0);
+            this->epoll_step(-1);
             this->try_reconnect();
         }
     }

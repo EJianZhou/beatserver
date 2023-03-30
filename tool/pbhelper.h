@@ -20,4 +20,5 @@ public:
     static serverproto::ConnectServer createConnectServerMessage(const std::string &srevername);
     static serverproto::RConnectServer createRConnectServerMessage(bool read);
     static serverproto::CreateRoom createCreateRoomMessage(int id1, int id2);
+    static serverproto::GameOver createCreateGameOverMessage(int id1, int id2);
 };

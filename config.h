@@ -30,6 +30,7 @@ const int TYPEBYTES = 1;
 #define PLAYEROUT 102
 #define PLAYERIN 103
 #define CREATROOM 104
+#define GAMEOVER 105
 
 const std::map<uint8_t, std::string> map_typeid2name = {
     {1, "LOGIN"},
@@ -40,7 +41,10 @@ const std::map<uint8_t, std::string> map_typeid2name = {
     {6, "OPERATION"},
     {7, "ROPERATION"},
     {100, "CONNECTSSERVER"},
-    {101, "RCONNECTSSERVER"}};
+    {101, "RCONNECTSSERVER"},
+    {102, "PLAYEROUT"},
+    {104, "CREATROOM"},
+    {105, "GAMEOVER"}};
 
 inline std::string getTypeName(uint8_t type)
 {

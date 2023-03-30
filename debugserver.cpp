@@ -7,8 +7,6 @@
 #include <map>
 #include <unordered_map>
 
-#include <gperftools/profiler.h>
-#include <jemalloc/jemalloc.h>
 
 time_t getTimeMS()
 {

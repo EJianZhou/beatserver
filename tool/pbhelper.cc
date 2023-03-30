@@ -63,3 +63,10 @@ serverproto::CreateRoom ServerMessageBuilder::createCreateRoomMessage(int id1, i
     createroom.set_id2(id2);
     return createroom;
 }
+serverproto::GameOver ServerMessageBuilder::createCreateGameOverMessage(int id1, int id2)
+{
+    serverproto::GameOver gameover;
+    gameover.set_id1(id1);
+    gameover.set_id2(id2);
+    return gameover;
+}

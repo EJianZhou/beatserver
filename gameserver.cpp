@@ -7,6 +7,8 @@
 #include <unordered_set>
 #include <queue>
 
+#define MAXFRAME 100000
+
 #define NOW std::chrono::steady_clock::now()
 
 time_t getTimeMS()
@@ -28,22 +30,21 @@ void mergeOperations(beatsgame::ROperation &src, const beatsgame::Operation &ops
 class RoomInfo
 {
 public:
-	int playersize, playercount;
+	int playersize, playercount, playerlive;
 	int frame;
-	RoomInfo(int playersize = 2) : playersize(playersize), playercount(0)
+	RoomInfo(int playersize = 2) : playersize(playersize), playercount(0), playerlive(0), frame(0)
 	{
 		vect_op.reserve(1 << 10);
 		vect_playerid.reserve(playersize);
 		vect_opid.reserve(playersize);
 		vect_state.reserve(playersize);
-		frame = 0;
 	}
 	void init()
 	{
 		vect_op.clear();
 		vect_opid.clear();
 		vect_playerid.clear();
-		playercount = 0;
+		playercount = playerlive = frame = 0;
 	}
 	bool add_player(int playerid)
 	{
@@ -66,6 +67,7 @@ public:
 		{
 			if (vect_playerid[i] == playerid)
 			{
+				playerlive++;
 				vect_state[i] = 1;
 				return;
 			}
@@ -77,6 +79,7 @@ public:
 		{
 			if (vect_playerid[i] == playerid)
 			{
+				playerlive--;
 				vect_opid[i] = 0;
 				vect_state[i] = 0;
 				return;
@@ -157,6 +160,23 @@ public:
 		{
 		}
 	}
+	void on_gameover(RoomInfo *rm) {
+		if (!rm) return;
+		int id1 = rm->get_playerid(1), id2 = rm->get_playerid(2);
+		
+		auto gameover = ServerMessageBuilder::createCreateGameOverMessage(id1, id2);
+		Header hd(gameover.ByteSizeLong(), 0, GAMEOVER);
+		if (SerializeWithHeader(&hd, gameover, pkg_buf, PKGSIZE)) {
+			send_to_server(ServerType::controlserver, &hd, pkg_buf);
+		}
+
+		if (umap_id2itor.count(id1) && umap_id2itor.count(id2)) {
+			auto itor = umap_id2itor[id1];
+			list_room.erase(itor);
+		}
+		pool_room->release(rm);
+	
+	}
 	void solve_pkg(int fd, Header *header) override
 	{
 		ServerBase::solve_pkg(fd, header);
@@ -167,6 +187,7 @@ public:
 			if (cr.ParseFromArray(pkg_buf + Header::header_length, header->length))
 			{
 				RoomInfo *rm = pool_room->acquire();
+				rm->init();
 				list_room.push_back(rm);
 				auto itor = --list_room.end();
 				umap_id2itor[cr.id1()] = itor;
@@ -213,7 +234,12 @@ public:
 			{
 				auto itor = umap_id2itor[playerid];
 				RoomInfo *rm = *itor;
-				if (rm) rm->player_out(playerid);
+				if (rm) {
+					rm->player_out(playerid);
+					if (!rm->playerlive) {
+						on_gameover(rm);
+					}
+				}
 			}
 			else
 			{

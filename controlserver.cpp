@@ -181,6 +181,11 @@ public:
             }
             else if (info->state == PlayerState::exitgame)
             {
+                my_log("游戏中用户全部退出，游戏结束");
+                pool_playerinfo->release(info);
+
+                IDMgr->erase(id, info->username);
+                umap_id2playerinfo.erase(it); 
             }
         }
     }
@@ -312,6 +317,14 @@ public:
             int id = header->value;
             try_logout(id);
         }
+        else if (type == GAMEOVER) 
+        {
+            serverproto::GameOver gameover;
+            if (gameover.ParseFromArray(pkg_buf + Header::header_length, header->length)) {
+                try_logout(gameover.id1());
+                try_logout(gameover.id2());
+            }
+        }
         else
         {
             my_log("recv pkg type", getTypeName(type));
@@ -321,7 +334,7 @@ public:
     {
         while (1)
         {
-            this->epoll_step(0);
+            this->epoll_step(-1);
             this->try_reconnect();
         }
     }
