@@ -138,7 +138,9 @@ public:
             my_log("try enter end");
             if (list_room.empty())
             {
-                list_room.push_back(pool_room->acquire());
+                auto rm = pool_room->acquire();
+                rm->init();
+                list_room.push_back(rm);
             }
             list_room.front()->add_player(id);
         }
