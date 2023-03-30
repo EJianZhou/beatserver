@@ -3,7 +3,8 @@
 #include <cstdint>
 #include <memory>
 
-class CircularBuffer {
+class CircularBuffer
+{
 public:
     CircularBuffer(uint32_t size);
     ~CircularBuffer();

@@ -10,15 +10,12 @@
 
 #define DGAME_PORT 2440
 
-
 const int MAXEVENTS = 1024;
 const int BUFFSIZE = 1024;
-const int PKGSIZE =  4096;
+const int PKGSIZE = 4096;
 
 const int LENBYTES = 3;
 const int TYPEBYTES = 1;
-
-
 
 #define LOGIN 1
 #define RLOGIN 2
@@ -28,11 +25,11 @@ const int TYPEBYTES = 1;
 #define OPERATION 6
 #define ROPERATION 7
 
-
 #define CONNECTSSERVER 100
 #define RCONNECTSSERVER 101
-#define GATELOGOUT 102
-#define CREATROOM 103
+#define PLAYEROUT 102
+#define PLAYERIN 103
+#define CREATROOM 104
 
 const std::map<uint8_t, std::string> map_typeid2name = {
     {1, "LOGIN"},
@@ -43,14 +40,13 @@ const std::map<uint8_t, std::string> map_typeid2name = {
     {6, "OPERATION"},
     {7, "ROPERATION"},
     {100, "CONNECTSSERVER"},
-    {101, "RCONNECTSSERVER"}
-};
+    {101, "RCONNECTSSERVER"}};
 
-
-inline std::string getTypeName(uint8_t type) {
+inline std::string getTypeName(uint8_t type)
+{
     auto it = map_typeid2name.find(type);
     if (it != map_typeid2name.end())
         return it->second;
-    else 
+    else
         return "unknow";
 }

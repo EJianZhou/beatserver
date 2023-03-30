@@ -37,7 +37,6 @@ bool CircularBuffer::addBuffer(const char *buffer, uint32_t size)
     return true;
 }
 
-
 bool CircularBuffer::popBuffer(uint32_t size)
 {
     if (size > _capacity)
@@ -73,7 +72,6 @@ void CircularBuffer::getBuffer(char *buf, uint32_t len)
 
     return;
 }
-
 
 uint32_t CircularBuffer::getRemain()
 {
